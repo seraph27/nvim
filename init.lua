@@ -1,20 +1,18 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
-
+vim.opt.fileformats = { "unix", "dos", "mac" }
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
-
--- Make line numbers default
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
 -- vim.opt.relativenumber = true
-
+vim.opt.wildmenu = true
+vim.opt.wildmode = { "longest:full", "full" }
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
 
@@ -75,6 +73,7 @@ vim.cmd [[
   autocmd BufNewFile */projecteuler/*.py 0r ~/competitve-programming/templates/py_template.py
   autocmd BufNewFile */codeforces/*.cpp 0r ~/competitve-programming/templates/codeforces.cpp
   autocmd BufNewFile */atcoder/*.cpp 0r ~/competitve-programming/templates/atcoder.cpp
+  autocmd BufNewFile */zj/*.cpp 0r ~/competitve-programming/templates/mintemplate.cpp
   autocmd BufNewFile */usaco/*.cpp 0r ~/competitve-programming/templates/codeforces.cpp
 ]]
 
@@ -570,10 +569,6 @@ require('lazy').setup({
         -- Load `friendly-snippets` and custom Lua snippets
         {
           'rafamadriz/friendly-snippets',
-          config = function()
-            --require('luasnip.loaders.from_vscode').lazy_load() -- Load all vscode-style snippets
-            require("luasnip.loaders.from_lua").load({ paths = {"/home/seraph/.config/nvim/lua/"} })
-          end,
         },
       },
       config = function()
@@ -581,6 +576,12 @@ require('lazy').setup({
           history = true,
           updateevents = "TextChanged,TextChangedI",
         })
+        --require('luasnip.loaders.from_vscode').lazy_load() -- Load all vscode-style snippets
+        require("luasnip.loaders.from_vscode").lazy_load{
+            paths = {
+              "~/competitve-programming/snippets/"
+            },
+        }
       end,
     },
     'saadparwaiz1/cmp_luasnip',
