@@ -1,4 +1,5 @@
 vim.g.mapleader = ' '
+
 vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
@@ -29,7 +30,7 @@ end)
 
 -- Enable break indent
 vim.opt.breakindent = true
-
+vim.g.indent_blankline_enabled = false
 -- Save undo history
 vim.opt.undofile = true
 
@@ -54,15 +55,24 @@ vim.opt.splitbelow = true
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
-vim.opt.list = true
+vim.opt.list = false
 vim.opt.listchars = { trail = '·', nbsp = '␣' }
-
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
 
+vim.diagnostic.config({
+  virtual_text = { prefix = "●", spacing = 2 },
+  signs        = true,
+  underline    = true,
+  update_in_insert = false,
+})
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
@@ -499,9 +509,9 @@ require('lazy').setup({
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
       local servers = {
-        -- clangd = {},
+        clangd = {},
         -- gopls = {},
-        -- pyright = {},
+        pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -572,16 +582,17 @@ require('lazy').setup({
         },
       },
       config = function()
+        --require("snips")
+        require("luasnip.loaders.from_vscode").lazy_load {
+          paths = {
+            vim.fn.expand("~") .. "/competitve-programming/lib/snippets"
+          },
+        }
         require("luasnip").config.set_config({
           history = true,
           updateevents = "TextChanged,TextChangedI",
         })
         --require('luasnip.loaders.from_vscode').lazy_load() -- Load all vscode-style snippets
-        require("luasnip.loaders.from_vscode").lazy_load{
-            paths = {
-              "~/competitve-programming/snippets/"
-            },
-        }
       end,
     },
     'saadparwaiz1/cmp_luasnip',
@@ -613,9 +624,9 @@ require('lazy').setup({
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
-          ['<CR>'] = cmp.mapping.confirm { select = true },
-          ['<Tab>'] = cmp.mapping.select_next_item(),
-          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+          --['<CR>'] = cmp.mapping.confirm { select = true },
+          --['<Tab>'] = cmp.mapping.select_next_item(),
+          --['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display

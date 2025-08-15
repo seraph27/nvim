@@ -59,7 +59,8 @@ return {
                     height = 0.5,
                     show_nu = true,
                     show_rnu = false,
-                    close_mappings = { "q", "Q" },
+                    open_when_compilation_fails = false,
+                    close = { "q", "Q" },
                 },
             },
             popup_ui = {
@@ -117,8 +118,8 @@ return {
             },
             running_directory = ".",
             run_command = {
-                cpp = { exec = "./a" },
-                python3 = { exec = "python3", args = { "$(FNAME)" } }
+              cpp  = { exec = "./a"},
+              python = { exec = "python3", args = { "$(FNAME)" } },
             },
             multiple_testing = -1,
             maximum_time = tonumber("$(TIMELIM)"),
